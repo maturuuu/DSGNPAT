@@ -8,6 +8,7 @@ public class Application {
     private Creature CFirstCreature;
     private Creature aAllCreatures[];
     private CreatureGenerator CCreatureGenerator;
+    private Player CPlayer;
     
     /**
      * This constructor initializes the starting pokemon of the player.
@@ -35,8 +36,7 @@ public class Application {
         System.out.println("");
         System.out.println("Your name is " + strPlayerName + "!");
 
-        CCreatureGenerator.makeCreatures();     //creates Creature instances for all creatures
-        aAllCreatures = CCreatureGenerator.getAllCreatures();
+        aAllCreatures = CCreatureGenerator.getCreatures(1);
 
         for(int i=0; i<aAllCreatures.length; i++){      //choose starter creature
             int x = i+1;
@@ -65,7 +65,7 @@ public class Application {
         System.out.println("\nYou selected " + CFirstCreature.getName() + "!");
         System.out.println("");
 
-        Player CPlayer = new Player(strPlayerName, CFirstCreature, CCreatureGenerator); //create player instance
+        CPlayer = new Player(strPlayerName, CFirstCreature, CCreatureGenerator); //create player instance
         runPlayer(CPlayer);     //start the game
 
         CNameScanner.close();

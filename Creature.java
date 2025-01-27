@@ -8,6 +8,8 @@ public class Creature {
     private int nEvolutionLevel;
     private int nIsActive;
 
+    private String strFilename;
+
     /**
      * This constructor accepts data to initialize creature fields and active status.
      * 
@@ -15,13 +17,15 @@ public class Creature {
      * @param strType  string value for Creature type
      * @param chFamily  character value for Creature family
      * @param nEvolutionLevel  integer value for Creature evolution level
+     * @param strFilename   filename for GUI
      */
-    public Creature(String strName, String strType, char chFamily, int nEvolutionLevel){
+    public Creature(String strName, String strType, char chFamily, int nEvolutionLevel, String strFilename){
         this.strName = strName;
         this.strType = strType;
         this.chFamily = chFamily;
         this.nEvolutionLevel = nEvolutionLevel;
         nIsActive = 0;
+        this.strFilename = strFilename;
     }
 
     /**
@@ -62,6 +66,14 @@ public class Creature {
      */
     public int getIsActive(){
         return nIsActive;
+    }
+
+    /**
+     * This method provides Creature's filename.
+     * @return  String value for Creature filename
+     */
+    public String getFilename(){
+        return strFilename;
     }
 
     /**

@@ -5,15 +5,17 @@ import java.util.ArrayList;
  */
 public class Inventory {
     private ArrayList<Creature> aCreatureList = new ArrayList<Creature>();      //generates an arraylist to store the creatures
+    private Creature[] aAllCreatures;                                           //a copy of all creatures
 
     /**
      * This constructor initializes the player active creature
      * 
      * @param CActiveCreature  Creature object of player's active Creature
      */
-    public Inventory(Creature CActiveCreature){     //constructor
+    public Inventory(Creature CActiveCreature, Creature[] aAllCreatures){     //constructor
         addCreature(CActiveCreature);
         aCreatureList.get(0).setIsActive(1);
+        this.aAllCreatures = aAllCreatures;
     }
 
     /**
@@ -22,9 +24,48 @@ public class Inventory {
      * @param CCreature  Creature object for Creature to be added.
      */
     public void addCreature(Creature CCreature){
-        Creature newCreature = new Creature(CCreature.getName(), CCreature.getType(), CCreature.getFamily(), CCreature.getEvolutionLevel());
+        Creature newCreature = new Creature(CCreature.getName(), CCreature.getType(), CCreature.getFamily(), CCreature.getEvolutionLevel(), CCreature.getFilename());
         aCreatureList.add(newCreature);
     }
+
+    /**
+     * This method removes a <code>Creature</code> from the inventory.
+     * 
+     * @param CCreature  Creature object to be removed.
+     */
+    public void removeCreature(Creature CCreature){
+        aCreatureList.remove(CCreature);
+    }
+
+    /**
+     * This method removes two <code>Creatures</code> from the inventory and adds the evolved Creature to the inventory.
+     * 
+     * @param CCreature1  1st Creature to be evolved.
+     * @param CCreature2  2nd Creature to be evolved.
+     */
+    public void evolveCreature(Creature CCreature1, Creature CCreature2){
+        Creature CNewCreature = null;
+        for(Creature creature : aAllCreatures){
+            if(creature.getEvolutionLevel() == CCreature1.getEvolutionLevel()+1 && creature.getFamily() == CCreature1.getFamily()){
+                CNewCreature = creature;
+                removeCreature(CCreature1);
+                removeCreature(CCreature2);
+                aCreatureList.add(CNewCreature);
+                if(CCreature1.getIsActive() == 1 || CCreature2.getIsActive() == 1){
+                    CNewCreature.setIsActive(1);
+                }
+
+                System.out.println("\nEvolution SUCCESS!! " + CNewCreature.getName() + " has been added to your inventory.");
+                System.out.println("--------------------------");
+                System.out.println("Name: " + CNewCreature.getName());
+                System.out.println("Type: " + CNewCreature.getType());
+                System.out.println("Family: " + CNewCreature.getFamily());
+                System.out.println("Evolution Level: " + CNewCreature.getEvolutionLevel());
+                System.out.println("--------------------------\n");
+            }
+        }
+    }
+
 
     /**
      * This method displays the player's Creatures.
@@ -57,6 +98,11 @@ public class Inventory {
         CNewActiveCreature.setIsActive(1);
     }
 
+    /**
+     * This method gets the index of the active creature
+     * 
+     * @return  index of the currently active Creature
+     */
     public int getActiveIndex(){        //returns the index of the active creature
         for(int i=0; i<aCreatureList.size(); i++){
             Creature thisCreature = aCreatureList.get(i);
@@ -78,9 +124,9 @@ public class Inventory {
     }
 
     /**
-     * This method gets the number of Creature a player has
+     * This method gets the number of Creatures a player has
      * 
-     * @return integer value for the number of Creature
+     * @return integer value for inventory size
      */
     public int getListSize(){
         return aCreatureList.size();

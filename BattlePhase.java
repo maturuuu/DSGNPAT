@@ -21,10 +21,11 @@ public class BattlePhase {
      * @param CEnemyGenerator  Creature object randomly chosen from generator
      * @param CPlayerInventory  Inventory object for player's Creature list
      * @param strPlayerName  String value for player name
+     * @param nAreaLevel    Level of the area
      */
-    public BattlePhase(CreatureGenerator CEnemyGenerator, Inventory CPlayerInventory, String strPlayerName){
+    public BattlePhase(CreatureGenerator CEnemyGenerator, Inventory CPlayerInventory, String strPlayerName, int nAreaLevel){
         nEnemyHealth = 50;
-        CEnemyCreature = CEnemyGenerator.randomCreature();
+        CEnemyCreature = CEnemyGenerator.randomCreature(CEnemyGenerator.getCreatures(nAreaLevel));
         this.CPlayerCreature = CPlayerInventory.getCreature(CPlayerInventory.getActiveIndex());
         this.CPlayerInventory = CPlayerInventory;
         this.strPlayerName = strPlayerName;
@@ -220,12 +221,12 @@ public class BattlePhase {
                 float fDamage = attack();
                 nEnemyHealth -= fDamage;
                 if (nEnemyHealth <= 0){
-                    System.out.println("You dealt " + fDamage + " damage.");
+                    System.out.print("You dealt " + fDamage + " damage.");
                     if(isAdvantage()){
-                        System.out.println(" It was SUPER EFFECTIVE!");
+                        System.out.print(" It was SUPER EFFECTIVE!");
                     }
                     System.out.println("");
-                    System.out.println("The wild " + CEnemyCreature.getName() + " fainted!");
+                    System.out.println("The wild " + CEnemyCreature.getName() + " fainted!\n");
                     bIsOver = true;
                 }
                 else{
